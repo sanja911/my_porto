@@ -1,0 +1,17 @@
+{
+    "extends": ["standard"],
+    "rules": {
+      "comma-dangle": ["error", "always-multiline"],
+      "eqeqeq": ["error", "smart"],
+      "no-unused-vars": "warn",
+      "semi": ["warn", "always"],
+      "new-cap": "off",
+      "no-unused-expressions": "warn",
+      "no-self-assign": "warn",
+      "space-before-function-paren": 0
+    },
+    "env": {
+      "jest": true
+    }
+  }
+  
