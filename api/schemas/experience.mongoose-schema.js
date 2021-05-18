@@ -8,7 +8,7 @@ const ExperienceSchema = new mongoose.Schema(
     },
     {
       timestamps: true,
-    }
+    },
   );
 
 module.exports = mongoose.model('Experience', ExperienceSchema);

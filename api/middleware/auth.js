@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const UserSchama = require('../schemas/user.mongoose-schema');
-const util = require('util');
 
 module.exports = {
   authenticated: async (req, res, next) => {

@@ -1,10 +1,9 @@
 const express = require('express');
-const app = express();
 const router = new express.Router();
 
 const auth = require('./middleware/auth');
 const Users = require('./controller/user');
-const Projects = require('./controller/project')
+const Projects = require('./controller/project');
 // user routes
 router.post('/user/', Users.create);
 router.post('/user/login', Users.login);

@@ -8,7 +8,7 @@ const UserSchama = new mongoose.Schema(
       {
         _id: false,
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
-        created: String
+        created: String,
       },
     ],
     education: [
@@ -44,7 +44,7 @@ const UserSchama = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 module.exports = mongoose.model('User', UserSchama);

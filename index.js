@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { response } = require('express');
 const app = express();
 // Middleware
 app.set('secretKey', 'node-rest');

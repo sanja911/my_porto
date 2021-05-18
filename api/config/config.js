@@ -1,5 +1,3 @@
-let config = {
-	JWT_SECRET: "thisissecretdude"
-};
+let config = { JWT_SECRET: "thisissecretdude" };
 
 module.exports = config;

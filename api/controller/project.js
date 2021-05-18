@@ -48,8 +48,8 @@ module.exports = {
   delete: async (req, res, next) => {
     const { id } = req.params;
     const data = res.locals.user;
-    const findProject = await ProjectSchema.find({_id: id});
-    console.log(id)
+    const findProject = await ProjectSchema.find({ _id: id });
+    console.log(id);
     if (!findProject) {
       return res.status(403).json({
         success: false,
@@ -60,13 +60,13 @@ module.exports = {
     await UserSchema.find({ _id: res.locals.user.id }).updateOne({
       $pull: { 'project.id': findProject._id },
     }, (err, next) => {
-      if(err) next(err)
+      if (err) next(err);
       return true;
     });
     return res.status(200).json({
       success: true,
       message: 'Delete Successfully',
-      result: await UserSchema.find({ _id: res.locals.user.id })
+      result: await UserSchema.find({ _id: res.locals.user.id }),
     });
   },
 };

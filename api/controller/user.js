@@ -40,7 +40,7 @@ module.exports = {
     const getPassword = bcrypt.compareSync(req.body.password, user.password);
     const userInfo = await UserSchema.findOne(
       { email: req.body.email },
-      { password: getPassword }
+      { password: getPassword },
     );
 
     if (!userInfo) {
