@@ -4,7 +4,8 @@
   "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ci:test": "jest --runInBand --ci"
   },
   "repository": {
     "type": "git",

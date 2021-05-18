@@ -1,5 +1,5 @@
 let config = {
-    JWT_SECRET: 'thisisconfigforjwt'
+	JWT_SECRET: "thisissecretdude"
 };
 
 module.exports = config;
