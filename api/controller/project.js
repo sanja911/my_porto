@@ -26,6 +26,18 @@ module.exports = {
     });
   },
 
+  find: async (req,res) => {
+    return await ProjectSchema.find({});
+  },
+
+  // TODO: This function only for test
+  findLastProject : async (req, res) => {
+    /**
+     * 1. Get newer project
+     * 2. return the id
+     */
+  },
+
   update: async (req, res) => {
     const { id } = req.params;
     const { name, description, links } = req.body;
@@ -47,9 +59,7 @@ module.exports = {
 
   delete: async (req, res, next) => {
     const { id } = req.params;
-    const data = res.locals.user;
     const findProject = await ProjectSchema.find({ _id: id });
-    console.log(id);
     if (!findProject) {
       return res.status(403).json({
         success: false,
