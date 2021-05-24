@@ -15,13 +15,6 @@ pipelines:
             script:
               - npm install
         - step:
-            name: Unit Testing
-            script:
-              - npm install
-              - npm run test
-            caches:
-              - node
-        - step:
             name: Code linting
             script:
               - npm install eslint
