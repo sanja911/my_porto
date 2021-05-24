@@ -27,7 +27,7 @@ test("POST /user/", async() => {
         expect(response.body.name).toBe(data.name);
         expect(response.body.email).toBe(data.email);
     })
-})
+}, 3000)
 
 test("POST /user/login/", async() => {
     await User.create({
@@ -43,4 +43,4 @@ test("POST /user/login/", async() => {
     await supertest(app).post('/user/login').send(loginData).expect(200).then((response) => {
         expect(response.body.token);
     })
-})
+}, 3000)
