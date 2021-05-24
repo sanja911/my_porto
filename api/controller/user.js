@@ -7,7 +7,6 @@ module.exports = {
   create: async (req, res) => {
     const hash = bcrypt.hashSync(req.body.password, 10);
     const findEmail = await UserSchema.find({ email: req.body.email });
-    console.log(findEmail);
 
     if (findEmail.length) {
       return res.status(401).json({
@@ -15,11 +14,11 @@ module.exports = {
         message: 'This email is available, use another email',
       });
     } else {
-      const { name, email } = req.body;
+      const { name, email, password } = req.body;
       const user = await UserSchema.create({
         name,
         email,
-        password: hash,
+        password,
       });
 
       return res.status(200).json(user);

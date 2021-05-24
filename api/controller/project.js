@@ -26,8 +26,12 @@ module.exports = {
     });
   },
 
-  find: async (req,res) => {
-    return await ProjectSchema.find({});
+  find: async (res) => {
+    const findProject = await ProjectSchema.find({})
+    return res.status(200).json({
+      success: true,
+      result: findProject,
+    });
   },
 
   // TODO: This function only for test
