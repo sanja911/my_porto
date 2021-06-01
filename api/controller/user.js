@@ -18,7 +18,7 @@ module.exports = {
       const user = await UserSchema.create({
         name,
         email,
-        password,
+        password: hash,
       });
 
       return res.status(200).json(user);

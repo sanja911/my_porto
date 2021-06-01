@@ -34,14 +34,6 @@ module.exports = {
     });
   },
 
-  // TODO: This function only for test
-  findLastProject : async (req, res) => {
-    /**
-     * 1. Get newer project
-     * 2. return the id
-     */
-  },
-
   update: async (req, res) => {
     const { id } = req.params;
     const { name, description, links } = req.body;
@@ -58,25 +50,26 @@ module.exports = {
 
     return res
       .status(404)
-      .json({ success: false, message: 'Data Not Found On This User' });
+      .json({ success: false, message: 'Data Not Found In This User' });
   },
 
   delete: async (req, res, next) => {
     const { id } = req.params;
     const findProject = await ProjectSchema.find({ _id: id });
+
     if (!findProject) {
-      return res.status(403).json({
+      return res.status(404).json({
         success: false,
-        message: 'Data Not Found',
+        message: 'Project Not Found',
       });
     }
-    await ProjectSchema.findOneAndDelete({ _id: id });
-    await UserSchema.find({ _id: res.locals.user.id }).updateOne({
-      $pull: { 'project.id': findProject._id },
-    }, (err, next) => {
-      if (err) next(err);
-      return true;
+
+    await UserSchema.find({ _id: res.locals.user.id }).update({
+      $pull: { project: {id: id }},
     });
+
+    await ProjectSchema.findOneAndDelete({ _id: id });
+
     return res.status(200).json({
       success: true,
       message: 'Delete Successfully',

@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 const EducationSchema = new mongoose.Schema(
     {
       name: String,
+      userId: String,
       majors: String,
-      start_date: Date,
-      end_date: Date,
+      start_year: Number,
+      graduate_year: Number,
     },
     {
       timestamps: true,
