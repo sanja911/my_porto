@@ -26,6 +26,8 @@ pipelines:
          - step:
             name: Code linting
             script:
+              - npm install
+              - npm install -g jest
               - npm install eslint
               - npx eslint .
             caches:
@@ -33,6 +35,4 @@ pipelines:
          - step:
              name: Unit Testing
              script:
-                - npm install
-                - npm install -g jest
-                - npm run test
+                - jest
