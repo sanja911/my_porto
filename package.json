@@ -4,7 +4,7 @@
   "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
   "main": "index.js",
   "scripts": {
-    "test": "jest 'tests/'",
+    "test": "jest",
     "start": "pm2 start pm2.config.js",
     "lint": "npx eslint .",
     "ci:test": "jest --runInBand --ci"

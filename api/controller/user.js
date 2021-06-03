@@ -5,7 +5,13 @@ const config = require('../config/config');
 
 module.exports = {
   create: async (req, res) => {
-    const hash = bcrypt.hashSync(req.body.password, 10);
+    let hash;
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(req.body.password, salt, (err, hashed) => {
+        hash = hashed
+        console.log(hashed)
+      });
+    })
     const findEmail = await UserSchema.find({ email: req.body.email });
 
     if (findEmail.length) {
@@ -20,12 +26,13 @@ module.exports = {
         email,
         password: hash,
       });
-
+      
       return res.status(200).json(user);
     }
   },
-
+  
   login: async (req, res) => {
+    // let userPassword;
     const user = await UserSchema.findOne({
       email: req.body.email,
     });
@@ -36,13 +43,14 @@ module.exports = {
       });
     }
 
-    const getPassword = bcrypt.compareSync(req.body.password, user.password);
-    const userInfo = await UserSchema.findOne(
-      { email: req.body.email },
-      { password: getPassword },
-    );
+    const userPassword = bcrypt.compareSync(req.body.password, user.password, (err,result) => {
+      return result;
+    });
+    
+    const userInfo = await UserSchema.find(
+      { email: req.body.email });
 
-    if (!userInfo) {
+    if (!userPassword) {
       return res.status(401).json({
         success: false,
         message: 'You are not authorized to login',

@@ -9,24 +9,28 @@ pipelines:
   default:
     - parallel:
         - step:
-            name: Build and Test
+            name: Installing
             caches:
               - node
             script:
               - npm install
         - step:
+            name: Build
+            caches:
+              - node
+            script:
+              - 'This step is completed'
+       
+
+    - parallel:
+         - step:
             name: Code linting
             script:
               - npm install eslint
               - npx eslint .
             caches:
               - node
-
-    - parallel:
          - step:
              name: Unit Testing
              script:
-                - echo "Running test group 1"
-                - npm install
-                - npm install jest
-                - jest
+                - npm run test
