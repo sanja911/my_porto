@@ -4,7 +4,7 @@
   "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "snyk test",
     "start": "pm2 start pm2.config.js",
     "lint": "npx eslint .",
     "ci:test": "jest --runInBand --ci"
@@ -46,6 +46,7 @@
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "mocha": "^8.4.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "snyk": "^1.621.0"
   }
 }

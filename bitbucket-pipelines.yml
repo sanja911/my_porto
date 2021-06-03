@@ -15,24 +15,26 @@ pipelines:
             script:
               - npm install
         - step:
-            name: Build
+            name: Linting
             caches:
               - node
-            script:
-              - echo 'This step is completed'
-       
-
-    - parallel:
-         - step:
-            name: Code linting
             script:
               - npm install
               - npm install eslint
               - npx eslint .
+       
+
+    - parallel:
+         - step:
+            name: Vulnerability Check
+            script:
+              - npm install
+              - npm install snyk
+              - npm run test
             caches:
               - node
          - step:
              name: Unit Testing
              script:
                - npm install -g jest
-                - jest
+               - jest
