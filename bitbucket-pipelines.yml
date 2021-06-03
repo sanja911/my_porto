@@ -25,6 +25,15 @@ pipelines:
        
 
     - parallel:
+        - step:
+             name: Vulnerability Check
+             script:
+               - npm install
+               - npm run test
+               - pipe: snyk/snyk-scan:0.5.0
+                 variables:
+                    SNYK_TOKEN: "$SNYK_TOKEN"
+                    LANGUAGE: "npm"
          - step:
              name: Unit Testing
              script:
@@ -34,19 +43,5 @@ pipelines:
                - node
                
                
- - pipe: snyk/snyk-scan:0.5.0
-  variables:
-    SNYK_TOKEN: "$SNYK_TOKEN"
-    LANGUAGE: "npm" # Required unless SNYK_TEST_JSON_INPUT is set
-    # IMAGE_NAME: "<string>" # Only required if LANGUAGE set to "docker"
-    # CODE_INSIGHTS_RESULTS: "<boolean>" # Optional.
-    # SNYK_TEST_JSON_INPUT: "<string>" # Optional. The filename or path of a JSON file containg the output from running a test with the Snyk CLI (with json output option).
-    # PROTECT: "<boolean>" # Optional.
-    # DONT_BREAK_BUILD: "<boolean>" # Optional.
-    # MONITOR: "<boolean>" # Optional.
-    # SEVERITY_THRESHOLD: "<low|medium|high|critical>" # Optional.
-    # ORGANIZATION: "<string>" # Optional.
-    # PROJECT_FOLDER: "<string>" # Optional.
-    # TARGET_FILE: "<string>" # Optional.
-    # EXTRA_ARGS: "<string>" # Optional.
-    # DEBUG: "<boolean>" # Optional.
+ 
+    
