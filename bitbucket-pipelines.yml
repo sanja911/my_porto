@@ -19,7 +19,7 @@ pipelines:
             caches:
               - node
             script:
-              - 'This step is completed'
+              - echo 'This step is completed'
        
 
     - parallel:
