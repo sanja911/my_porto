@@ -33,5 +33,6 @@ pipelines:
          - step:
              name: Unit Testing
              script:
+                - npm install
                 - npm install -g jest
                 - npm run test
