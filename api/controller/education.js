@@ -11,27 +11,28 @@ module.exports = {
             userId: currentUser.id,
             majors,
             start_year,
-            graduate_year
+            graduate_year,
         })
 
         findUser.education.push({
-            id: createEducation, created: new Date().toISOString()
+            id: createEducation, created: new Date().toISOString(),
         })
         await findUser.save();
 
         return res.status(200).json({
             success: true,
             message: 'Education Success Added To '+ currentUser.id +' ',
-            result: createEducation
+            result: createEducation,
         })
     },
 
     update: async (req, res) => {
         const {id} = req.params;
+        const currentUser = res.locals.user;
         const { name, majors, start_year, end_date } = req.body;
         const findEducation  = await EducationSchema.findById(id);
 
-        if(findEducation.user.length) {
+        if(findEducation) {
             await EducationSchema.findOneAndUpdate({_id: id}, {$set: req.body});
             return res.status(200).json({
                 success: true,
@@ -42,15 +43,15 @@ module.exports = {
 
         res.status(404).json({
             success: false,
-            message: 'Data Not Found In This User'
+            message: 'Data Not Found In This User',
         })
     },
 
-    delete: async (req, res, next) => {
+    delete: async (req, res ) => {
         const { id } = req.params;
         const education = await EducationSchema.findById(id);
     
-        if (education.length) {
+        if (education) {
             await UserSchema.find({ _id: res.locals.user.id }).update({
                 $pull: { education: {id: id }},
             });

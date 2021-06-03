@@ -3,14 +3,13 @@ const UserSchema = require('../schemas/user.mongoose-schema');
 
 module.exports = {
   create: async (req, res) => {
-    const { name, description, links, start_date, end_date } = req.body;
     const currentUser = res.locals.user;
+    const { name, description, links, start_date, end_date } = req.body;
     const findUser = await UserSchema.findById(currentUser.id);
-    const users = { userId: currentUser.id, name: findUser.name };
 
     const createProject = await ProjectSchema.create({
       name,
-      users,
+      userId: currentUser.id,
       description,
       links,
       start_date,
@@ -36,10 +35,11 @@ module.exports = {
 
   update: async (req, res) => {
     const { id } = req.params;
+    const currentUser = res.locals.user;
     const { name, description, links } = req.body;
-    const findProject = await ProjectSchema.findById(id);
+    const findProject = await ProjectSchema.find({userId: currentUser.id});
 
-    if (findProject.users.length) {
+    if (findProject.length) {
       await ProjectSchema.findOneAndUpdate({ _id: id }, { $set: req.body });
       return res.status(200).json({
         success: true,
