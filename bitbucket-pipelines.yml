@@ -25,7 +25,14 @@ pipelines:
        
 
     - parallel:
-        - step:
+      - step:
+           name: Unit Testing
+           script:
+             - npm install -g jest
+             - jest
+           caches:
+             - node
+      - step:
              name: Vulnerability Check
              script:
                - npm install
@@ -34,14 +41,4 @@ pipelines:
                  variables:
                     SNYK_TOKEN: "$SNYK_TOKEN"
                     LANGUAGE: "npm"
-         - step:
-             name: Unit Testing
-             script:
-               - npm install -g jest
-               - jest
-             caches:
-               - node
-               
-               
- 
-    
+        
