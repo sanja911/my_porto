@@ -5,12 +5,12 @@ const Education = require('../api/schemas/education.mongoose-schema');
 const mongoose = require('mongoose');
 const faker = require('faker');
 const supertest = require('supertest');
+const uri = "mongodb+srv://sanja_porto:sanja1996@cluster0.baefa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 let jwtToken;
 let user_id;
 beforeEach((done) => {
-    mongoose.connect("mongodb://localhost:27017/JestDB",
-      { useNewUrlParser: true, useUnifiedTopology: true },
+    mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true },
       async () => {
       const data = {
           name: 'Jacklyn60',
