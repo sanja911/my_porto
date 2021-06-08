@@ -20,6 +20,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/sanja911/my_porto#readme",
   "dependencies": {
+    "@shelf/jest-mongodb": "^1.2.5",
     "babel-register": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -29,6 +30,7 @@
     "faker": "^5.5.3",
     "jest": "^26.6.3",
     "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server": "^6.9.6",
     "mongoose": "^5.12.8",
     "pm2": "^4.5.6",
     "sinon": "^10.0.0",

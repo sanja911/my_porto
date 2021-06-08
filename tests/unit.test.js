@@ -5,43 +5,46 @@ const Education = require('../api/schemas/education.mongoose-schema');
 const mongoose = require('mongoose');
 const faker = require('faker');
 const supertest = require('supertest');
-const uri = "mongodb+srv://sanja_porto:sanja1996@cluster0.baefa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const uri2 = "mongodb://localhost:27017";
-let jwtToken;
-let user_id;
-beforeEach((done) => {
-    mongoose.connect(uri2, { useNewUrlParser: true, useUnifiedTopology: true },
-      async () => {
-      const data = {
-          name: 'Jacklyn60',
-          email: 'test@mail.com',
-          password: "Testing123",
-      }
-      
-      await supertest(app).post('/user/').send(data).expect(200)
-      
-      const loginData = {
-          email: 'test@mail.com',
-          password: "Testing123",
-      }
-      
-      await supertest(app).post('/user/login/').send(loginData).expect(200).then((response) => {
-        jwtToken = 'Token ' +response.body.data.token;
-        user_id = response.body.data.userInfo._id;
-      });
-      done()
-    });
-});
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
-afterEach((done) => {
-    mongoose.connection.db.dropDatabase(() => {
-      mongoose.connection.close(() => done())
-    });
-});
+let jwtToken, user_id, mongoServer;
+
 
 // ====== Project Testing ======
-describe('PROJECT API UNIT TESTING', () => {
-    it("POST /project/", async() => {
+describe('JEST INTEGRATION TESTING', () => {
+    beforeEach(async (done) => {
+        mongoServer = new MongoMemoryServer();
+        const URI = await mongoServer.getUri();
+    
+        mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true },
+          async () => {
+          const data = {
+              name: 'Jacklyn60',
+              email: 'test@mail.com',
+              password: "Testing123",
+          }
+          
+          await supertest(app).post('/user/').send(data).expect(200)
+          
+          const loginData = {
+              email: 'test@mail.com',
+              password: "Testing123",
+          }
+          
+          await supertest(app).post('/user/login/').send(loginData).expect(200).then((response) => {
+            jwtToken = 'Token ' +response.body.data.token;
+            user_id = response.body.data.userInfo._id;
+          });
+          done()
+        });
+    });
+    
+    afterEach(async done => {
+        mongoose.disconnect(done);
+        await mongoServer.stop();
+    });
+
+    it("POST /project/", async(done) => {
         const project = {
             name: faker.commerce.department(),
             userId: user_id,
@@ -62,9 +65,10 @@ describe('PROJECT API UNIT TESTING', () => {
             expect(response.body.result.description).toBe(currentProject.description);
             expect(response.body.result.link).toBe(currentProject.link);
         })
-    }, 3000)
+        done();
+    })
     
-    it("PUT /project/:id", async() =>{
+    it("PUT /project/:id", async(done) =>{
         const projectData = await Project.create({
             name: faker.company.companyName(),
             description: faker.lorem.lines(),
@@ -94,9 +98,10 @@ describe('PROJECT API UNIT TESTING', () => {
             expect(response.body.description).toBe(currentProject.description);
             expect(response.body.links).toBe(currentProject.links);
         })
-    }, 3000)
+        done();
+    })
     
-    it("DELETE /project/:id", async() => {
+    it("DELETE /project/:id", async(done) => {
         const projectData = await Project.create({
             name: faker.company.companyName(),
             description: faker.lorem.lines(),
@@ -110,11 +115,10 @@ describe('PROJECT API UNIT TESTING', () => {
         .then((response) => {
             expect(response.statusCode).toBe(200);
         })
-    }, 3000);
-})
+        done();
+    });
 
-describe('EDUCATION API UNIT TESTING', () => {
-    it('POST /education', async() => {
+    it('POST /education', async(done) => {
         const education = {
             name: faker.company.companyName(),
             userId: user_id,
@@ -134,5 +138,6 @@ describe('EDUCATION API UNIT TESTING', () => {
             expect(response.body.result.userId).toBe(user_id);
             expect(response.body.result.majors).toBe(currentEducation.majors);
         })
+        done();
     })
 })
