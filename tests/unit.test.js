@@ -6,11 +6,11 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 const supertest = require('supertest');
 const uri = "mongodb+srv://sanja_porto:sanja1996@cluster0.baefa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
+const uri2 = "mongodb://localhost:27017";
 let jwtToken;
 let user_id;
 beforeEach((done) => {
-    mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true },
+    mongoose.connect(uri2, { useNewUrlParser: true, useUnifiedTopology: true },
       async () => {
       const data = {
           name: 'Jacklyn60',
@@ -25,9 +25,9 @@ beforeEach((done) => {
           password: "Testing123",
       }
       
-      await supertest(app).post('/user/login').send(loginData).expect(200).then((response) => {
-          jwtToken = 'Token ' +response.body.data.token;
-          user_id = response.body.data.userInfo._id;
+      await supertest(app).post('/user/login/').send(loginData).expect(200).then((response) => {
+        jwtToken = 'Token ' +response.body.data.token;
+        user_id = response.body.data.userInfo._id;
       });
       done()
     });
