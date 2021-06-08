@@ -3,14 +3,13 @@ const UserSchema = require('../schemas/user.mongoose-schema');
 
 module.exports = {
   create: async (req, res) => {
-    const { name, description, links, start_date, end_date } = req.body;
     const currentUser = res.locals.user;
+    const { name, description, links, start_date, end_date } = req.body;
     const findUser = await UserSchema.findById(currentUser.id);
-    const users = { userId: currentUser.id, name: findUser.name };
 
     const createProject = await ProjectSchema.create({
       name,
-      users,
+      userId: currentUser.id,
       description,
       links,
       start_date,
@@ -34,20 +33,13 @@ module.exports = {
     });
   },
 
-  // TODO: This function only for test
-  findLastProject : async (req, res) => {
-    /**
-     * 1. Get newer project
-     * 2. return the id
-     */
-  },
-
   update: async (req, res) => {
     const { id } = req.params;
+    const currentUser = res.locals.user;
     const { name, description, links } = req.body;
-    const findProject = await ProjectSchema.findById(id);
+    const findProject = await ProjectSchema.find({userId: currentUser.id});
 
-    if (findProject.users.length) {
+    if (findProject.length) {
       await ProjectSchema.findOneAndUpdate({ _id: id }, { $set: req.body });
       return res.status(200).json({
         success: true,
@@ -58,25 +50,26 @@ module.exports = {
 
     return res
       .status(404)
-      .json({ success: false, message: 'Data Not Found On This User' });
+      .json({ success: false, message: 'Data Not Found In This User' });
   },
 
   delete: async (req, res, next) => {
     const { id } = req.params;
     const findProject = await ProjectSchema.find({ _id: id });
+
     if (!findProject) {
-      return res.status(403).json({
+      return res.status(404).json({
         success: false,
-        message: 'Data Not Found',
+        message: 'Project Not Found',
       });
     }
-    await ProjectSchema.findOneAndDelete({ _id: id });
-    await UserSchema.find({ _id: res.locals.user.id }).updateOne({
-      $pull: { 'project.id': findProject._id },
-    }, (err, next) => {
-      if (err) next(err);
-      return true;
+
+    await UserSchema.find({ _id: res.locals.user.id }).update({
+      $pull: { project: {id: id }},
     });
+
+    await ProjectSchema.findOneAndDelete({ _id: id });
+
     return res.status(200).json({
       success: true,
       message: 'Delete Successfully',

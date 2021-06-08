@@ -13,8 +13,9 @@ const UserSchama = new mongoose.Schema(
     ],
     education: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Education',
+        _id: false,
+        id: {type: mongoose.Schema.Types.ObjectId, ref: 'Education'},
+        created: String,
       },
     ],
     skills: [

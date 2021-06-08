@@ -4,10 +4,11 @@ const UserSchama = require('../schemas/user.mongoose-schema');
 
 module.exports = {
   authenticated: async (req, res, next) => {
-    const token = req.headers['authorization'] || req.query.token;
 
-    if (!token) {
-      return res.status(403).json({
+    const token = req.header('Authorization').split(' ')[1] || req.query.token;
+
+    if (!token || req.header('Authorization').split(' ')[0].toLowerCase() !== 'token') {
+      return res.status(401).json({
         success: false,
         message: 'You dont have token',
       });

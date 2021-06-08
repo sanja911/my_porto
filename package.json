@@ -4,7 +4,7 @@
   "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "snyk test",
     "start": "pm2 start pm2.config.js",
     "lint": "npx eslint .",
     "ci:test": "jest --runInBand --ci"
@@ -20,6 +20,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/sanja911/my_porto#readme",
   "dependencies": {
+    "@shelf/jest-mongodb": "^1.2.5",
     "babel-register": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -29,6 +30,7 @@
     "faker": "^5.5.3",
     "jest": "^26.6.3",
     "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server": "^6.9.6",
     "mongoose": "^5.12.8",
     "pm2": "^4.5.6",
     "sinon": "^10.0.0",
@@ -46,6 +48,7 @@
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "mocha": "^8.4.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "snyk": "^1.621.0"
   }
 }

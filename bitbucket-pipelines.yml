@@ -9,15 +9,36 @@ pipelines:
   default:
     - parallel:
         - step:
-            name: Build and Test
+            name: Installing
             caches:
               - node
             script:
               - npm install
         - step:
-            name: Code linting
-            script:
-              - npm install eslint
-              - npx eslint .
+            name: Linting
             caches:
               - node
+            script:
+              - npm install
+              - npm install eslint
+              - npx eslint .
+       
+
+    - parallel:
+      - step:
+           name: Unit Testing
+           script:
+             - npm install -g jest
+             - jest
+           caches:
+             - node
+      - step:
+             name: Vulnerability Check
+             script:
+               - npm install
+               - npm run test
+               - pipe: snyk/snyk-scan:0.5.0
+                 variables:
+                    SNYK_TOKEN: "$SNYK_TOKEN"
+                    LANGUAGE: "npm"
+        
