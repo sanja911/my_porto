@@ -16,7 +16,10 @@ describe('JEST INTEGRATION TESTING', () => {
         mongoServer = new MongoMemoryServer();
         const URI = await mongoServer.getUri();
     
-        mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true },
+        await mongoose.connect(URI, { 
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        },
           async () => {
           const data = {
               name: 'Jacklyn60',
@@ -39,8 +42,9 @@ describe('JEST INTEGRATION TESTING', () => {
         });
     });
     
-    afterEach(async done => {
-        mongoose.disconnect(done);
+    afterEach(async () => {
+        await mongoose.connection.dropDatabase();
+        await mongoose.connection.close();
         await mongoServer.stop();
     });
 
