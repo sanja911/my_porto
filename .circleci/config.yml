@@ -21,7 +21,7 @@ commands:
       - run:
           name: running test
           command: 
-            npm install
+            npm install &&
             npm test
 workflows:
   # Below is the definition of your workflow.
