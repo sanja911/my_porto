@@ -18,10 +18,11 @@ jobs:
 commands:
   test:
     steps:
+      - checkout
       - run:
           name: running test
           command: 
-            npm install && npm i -g jest && jest
+            npm install && npm run test
 workflows:
   # Below is the definition of your workflow.
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
