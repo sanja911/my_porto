@@ -16,16 +16,14 @@ jobs:
       - test
 
 commands:
-  install:
+  test:
     steps:
       - run:
           name: install-dependancies
           command: npm i
-  test:
-    steps:
       - run:
           name: running test
-          command: npm run test
+          command: npm test
 workflows:
   # Below is the definition of your workflow.
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
