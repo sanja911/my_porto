@@ -3,9 +3,9 @@ const User = require('../api/schemas/user.mongoose-schema');
 const Project = require('../api/schemas/project.mongoose-schema');
 const Education = require('../api/schemas/education.mongoose-schema');
 const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const faker = require('faker');
 const supertest = require('supertest');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let jwtToken, user_id, mongoServer;
 
@@ -141,6 +141,39 @@ describe('JEST INTEGRATION TESTING', () => {
             expect(response.body.result.name).toBe(currentEducation.name);
             expect(response.body.result.userId).toBe(user_id);
             expect(response.body.result.majors).toBe(currentEducation.majors);
+        })
+        done();
+    })
+
+    it("PUT /education/:id", async(done) =>{
+        const educationData = await Education.create({
+            name: faker.company.companyName(),
+            userId: user_id,
+            majors: faker.name.jobTitle,
+            start_year: new Date().getUTCFullYear(),
+            graduate_year: new Date().getUTCFullYear(),
+        })
+    
+        const education = {
+            name: faker.commerce.department(),
+            description: faker.lorem.lines(),
+            links: faker.internet.url(),
+            start_date: new Date().toISOString(),
+            end_date: new Date().toISOString()
+        }
+    
+        await supertest(app).put(`/project/${educationData._id}` )
+        .send(education)
+        .set('Authorization', jwtToken)
+        .then(async(response) => {
+            expect(200);
+            expect(response.body.name);
+            expect(response.body.userId);
+            expect(response.body.majors);
+            const currentEducation = await Education.find({_id: response.body.id});
+            expect(response.body.name).toBe(currentEducation.name);
+            expect(response.body.userId).toBe(currentEducation.userId);
+            expect(response.body.majors).toBe(currentEducation.majors);
         })
         done();
     })

@@ -5,6 +5,7 @@ const auth = require('./middleware/auth');
 const Users = require('./controller/user');
 const Projects = require('./controller/project');
 const Education = require('./controller/education');
+const Skill = require('./controller/skill');
 // user routes
 router.post('/user/', Users.create);
 router.post('/user/login', Users.login);
@@ -18,5 +19,11 @@ router.delete('/project/:id', auth.authenticated, Projects.delete);
 router.post('/education/',auth.authenticated, Education.create);
 router.put('/education/:id', auth.authenticated, Education.update);
 router.delete('/education/:id', auth.authenticated, Education.delete);
+
+// Skill routes
+router.post('/skills', auth.authenticated, Skill.create);
+router.put('/skills', auth.authenticated, Skill.update);
+router.delete('/skills', auth.authenticated, Skill.delete);
+
 // Export router module
 module.exports = router;
