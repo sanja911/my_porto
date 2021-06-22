@@ -20,15 +20,9 @@ commands:
     steps:
       - checkout
       - run:
-<<<<<<< HEAD
-          name: install-dependancies
-          command: npm ci
-        
-=======
           name: running test
           command: 
             npm install && npm run test
->>>>>>> 94119db7b4a6905bf16d044c8d350b4f6fa16405
 workflows:
   # Below is the definition of your workflow.
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
