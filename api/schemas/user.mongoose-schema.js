@@ -20,8 +20,9 @@ const UserSchama = new mongoose.Schema(
     ],
     skills: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Skills',
+        _id: false,
+        id: {type: mongoose.Schema.Types.ObjectId, ref: 'Education'},
+        created: String,
       },
     ],
     experience: [
