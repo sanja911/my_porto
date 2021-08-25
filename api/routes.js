@@ -6,6 +6,7 @@ const Users = require('./controller/user');
 const Projects = require('./controller/project');
 const Education = require('./controller/education');
 const Skill = require('./controller/skill');
+const Experience = require('./controller/experience');
 // user routes
 router.post('/user/', Users.create);
 router.post('/user/login', Users.login);
@@ -25,5 +26,9 @@ router.post('/skills', auth.authenticated, Skill.create);
 router.put('/skills', auth.authenticated, Skill.update);
 router.delete('/skills', auth.authenticated, Skill.delete);
 
+// Experiences routes
+router.post('/experiences', auth.authenticated, Experience.create);
+router.put('/experiences/:id', auth.authenticated, Experience.update);
+router.delete('/experiences/:id', auth.authenticated, Experience.delete);
 // Export router module
 module.exports = router;

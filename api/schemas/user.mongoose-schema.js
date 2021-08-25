@@ -27,8 +27,9 @@ const UserSchama = new mongoose.Schema(
     ],
     experience: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Experiences',
+        _id: false,
+        id: {type: mongoose.Schema.Types.ObjectId, ref: 'Experiences'},
+        created: String
       },
     ],
     created: [
